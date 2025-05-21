@@ -5,7 +5,8 @@
 
 #ifndef LOADER_H
 #define LOADER_H
-#include"dataFormat.h"
+
+#include "dataFormat.h"
 
 Node *createNode();
 

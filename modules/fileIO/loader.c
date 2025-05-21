@@ -3,9 +3,9 @@
 // DOC 数据加载器(将数据加载到结构体中)
 //
 
-#include"loader.h"
-#include"dataFormat.h"
-#include<stdio.h>
+#include "loader.h"
+#include "dataFormat.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 

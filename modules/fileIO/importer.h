@@ -5,8 +5,9 @@
 
 #ifndef IMPORTER_H
 #define IMPORTER_H
+
 #include <stdio.h>
-#include"dataFormat.h"
+#include "dataFormat.h"
 
 FILE *openFile(char *filename);
 
