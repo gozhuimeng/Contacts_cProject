@@ -9,10 +9,10 @@
 #include <stdio.h>
 #include "dataFormat.h"
 
-FILE *openFile(char *filename);
+FILE *openFile_write(char *filename);
 
 Node *buildString(const Row *row);
 
-void saveFile(FILE *file, const Grid *grid);
+void saveFile(char *filename, const Grid *grid);
 
 #endif //SAVER_H

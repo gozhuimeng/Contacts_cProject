@@ -9,13 +9,13 @@
 #include <stdio.h>
 #include "dataFormat.h"
 
-FILE *openFile(char *filename);
+FILE *openFile_read(char *filename);
 
 Node *loadNode(FILE *file);
 
 Row *loadRow(FILE *file);
 
-Grid *loadGrid(FILE *file);
+Grid *loadGrid(char *filename);
 
 // void test();
 

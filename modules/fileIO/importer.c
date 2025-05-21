@@ -12,7 +12,7 @@
  * @param filename
  * @return 文件指针
  */
-FILE *openFile(char *filename) {
+FILE *openFile_read(char *filename) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         printf("无法打开文件%s", filename);
@@ -62,10 +62,11 @@ Row *loadRow(FILE *file) {
 
 /**
  * 将文件中的数据加载到网格中
- * @param file
+ * @param filename
  * @return
  */
-Grid *loadGrid(FILE *file) {
+Grid *loadGrid(char *filename) {
+    FILE *file = openFile_read(filename);
     Grid *grid = createGrid();
     int ch = 0;
     while ((ch = fgetc(file)) != EOF ) {
@@ -77,19 +78,4 @@ Grid *loadGrid(FILE *file) {
     }
     return grid;
 }
-
-// 测试函数
-// void test() {
-//     char *filename = "..\\test\\1.csv";
-//     FILE * file = openFile(filename);
-//     Grid * grid = loadGrid(file);
-//     for (int i = 0; i < grid->len; i++) {
-//         Row * row = grid->data[i];
-//         for (int j = 0; j < row->len; j++) {
-//             Node * node = row->data[j];
-//             printf("%s|", node->str);
-//         }
-//         printf("\n");
-//     }
-// }
 

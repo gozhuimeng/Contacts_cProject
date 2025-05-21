@@ -8,7 +8,7 @@
 #include "dataFormat.h"
 #include "loader.h"
 
-FILE *openFile(char *filename) {
+FILE *openFile_write(char *filename) {
     FILE *file = fopen(filename, "w");
     if (file == NULL) {
         printf("无法打开文件%s\n", filename);
@@ -28,7 +28,8 @@ Node *buildString(const Row *row) {
     return string;
 }
 
-void saveFile(FILE *file, const Grid *grid) {
+void saveFile(char *filename, const Grid *grid) {
+    FILE *file = openFile_write(filename);
     for (int i = 0; i < grid->len; i++) {
         Node *string = buildString(grid->data[i]);
         fprintf(file, "%s\n", string->str);
@@ -36,9 +37,3 @@ void saveFile(FILE *file, const Grid *grid) {
     }
 }
 
-// void test() {
-//     // 假设这里有数据grid和文件名filename
-//     FILE *file = openFile(filename);
-//     saveFile(file, grid);
-//     fclose(file);
-// }
