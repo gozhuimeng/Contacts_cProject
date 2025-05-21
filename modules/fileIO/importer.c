@@ -15,7 +15,8 @@
 FILE *openFile_read(char *filename) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
-        printf("无法打开文件%s", filename);
+        // printf("无法打开文件%s", filename);
+        printf("无法找到数据文件%s\n", filename);
         return NULL;
     }
     return file;
@@ -68,6 +69,9 @@ Row *loadRow(FILE *file) {
 Grid *loadGrid(char *filename) {
     FILE *file = openFile_read(filename);
     Grid *grid = createGrid();
+    if (file == NULL) {
+        return grid;  // 如果文件打开失败，返回空网格
+    }
     int ch = 0;
     while ((ch = fgetc(file)) != EOF ) {
         if (ch != '\n') {
