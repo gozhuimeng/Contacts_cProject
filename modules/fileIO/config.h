@@ -1,5 +1,6 @@
 //
 // Created by meng on 25-5-21.
+// DOC 配置文件
 //
 
 #ifndef CONFIG_H
