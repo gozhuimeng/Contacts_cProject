@@ -1,6 +1,6 @@
 //
 // Created by meng on 25-5-13.
-// DOC ÎÄ¼şÊı¾İµ¼ÈëÆ÷(´ÓÎÄ¼şµ¼ÈëÊı¾İ)
+// DOC æ–‡ä»¶æ•°æ®å¯¼å…¥å™¨(ä»æ–‡ä»¶å¯¼å…¥æ•°æ®)
 //
 
 #include "importer.h"
@@ -8,22 +8,22 @@
 #include "loader.h"
 
 /**
- * ´ò¿ªÎÄ¼ş
+ * æ‰“å¼€æ–‡ä»¶
  * @param filename
- * @return ÎÄ¼şÖ¸Õë
+ * @return æ–‡ä»¶æŒ‡é’ˆ
  */
 FILE *openFile_read(char *filename) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
-        // printf("ÎŞ·¨´ò¿ªÎÄ¼ş%s", filename);
-        printf("ÎŞ·¨ÕÒµ½Êı¾İÎÄ¼ş%s\n", filename);
+        // printf("æ— æ³•æ‰“å¼€æ–‡ä»¶%s", filename);
+        printf("æ— æ³•æ‰¾åˆ°æ•°æ®æ–‡ä»¶%s\n", filename);
         return NULL;
     }
     return file;
 }
 
 /**
- * ½«ÎÄ¼şÖĞµÄÊı¾İ¼ÓÔØµ½½ÚµãÖĞ
+ * å°†æ–‡ä»¶ä¸­çš„æ•°æ®åŠ è½½åˆ°èŠ‚ç‚¹ä¸­
  * @param file
  * @return
  */
@@ -41,7 +41,7 @@ Node *loadNode(FILE *file) {
 }
 
 /**
- * ½«ÎÄ¼şÖĞµÄÊı¾İ¼ÓÔØµ½ĞĞÖĞ
+ * å°†æ–‡ä»¶ä¸­çš„æ•°æ®åŠ è½½åˆ°è¡Œä¸­
  * @param file
  * @return
  */
@@ -52,34 +52,43 @@ Row *loadRow(FILE *file) {
         if (ch != ',') {
             ungetc(ch, file);
         }
-        Node * node = loadNode(file);
+        Node *node = loadNode(file);
         appendRow(row, node);
     }
-    if (ch!=EOF) {
+    if (ch != EOF) {
         ungetc(ch, file);
     }
     return row;
 }
 
 /**
- * ½«ÎÄ¼şÖĞµÄÊı¾İ¼ÓÔØµ½Íø¸ñÖĞ
+ * å‘ Grid ä¸­è¿½åŠ æ•°æ®
+ * @param grid
  * @param filename
  * @return
  */
-Grid *loadGrid(char *filename) {
+Grid *loadGrid_append(Grid *grid, char *filename) {
     FILE *file = openFile_read(filename);
-    Grid *grid = createGrid();
     if (file == NULL) {
-        return grid;  // Èç¹ûÎÄ¼ş´ò¿ªÊ§°Ü£¬·µ»Ø¿ÕÍø¸ñ
+        return grid; // å¦‚æœæ–‡ä»¶æ‰“å¼€å¤±è´¥ï¼Œè¿”å›åŸç½‘æ ¼
     }
     int ch = 0;
-    while ((ch = fgetc(file)) != EOF ) {
+    while ((ch = fgetc(file)) != EOF) {
         if (ch != '\n') {
             ungetc(ch, file);
         }
-        Row * row = loadRow(file);
+        Row *row = loadRow(file);
         appendGrid(grid, row);
     }
     return grid;
 }
 
+/**
+ * å°†æ–‡ä»¶ä¸­çš„æ•°æ®åŠ è½½åˆ° Grid ä¸­
+ * @param filename
+ * @return
+ */
+Grid *loadGrid(char *filename) {
+    Grid *grid = createGrid();
+    return loadGrid_append(grid, filename);
+}

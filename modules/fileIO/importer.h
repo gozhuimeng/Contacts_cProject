@@ -17,6 +17,6 @@ Row *loadRow(FILE *file);
 
 Grid *loadGrid(char *filename);
 
-// void test();
+Grid *loadGrid_append(Grid *grid, char *filename);
 
 #endif //IMPORTER_H
