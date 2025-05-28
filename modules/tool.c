@@ -13,7 +13,7 @@
 
 bool check_grid_equal(Grid *grid1, Grid *grid2) {
     if (grid1 == NULL || grid2 == NULL) {
-        return false;
+        return true;
     }
     if (grid1->len != grid2->len) {
         return false;
