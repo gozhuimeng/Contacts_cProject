@@ -11,7 +11,7 @@
 
 #include <string.h>
 
-bool check_grid_equal(Grid *grid1, Grid *grid2) {
+bool check_grid_equal(const Grid *grid1, const Grid *grid2) {
     if (grid1 == NULL || grid2 == NULL) {
         return true;
     }
@@ -19,14 +19,14 @@ bool check_grid_equal(Grid *grid1, Grid *grid2) {
         return false;
     }
     for (int i = 0; i < grid1->len; i++) {
-        Row *row1 = grid1->data[i];
-        Row *row2 = grid2->data[i];
+        const Row *row1 = grid1->data[i];
+        const Row *row2 = grid2->data[i];
         if (row1->len != row2->len) {
             return false;
         }
         for (int j = 0; j < row1->len; j++) {
-            Node *node1 = row1->data[j];
-            Node *node2 = row2->data[j];
+            const Node *node1 = row1->data[j];
+            const Node *node2 = row2->data[j];
             if (node1->len != node2->len) {
                 return false;
             }
