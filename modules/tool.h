@@ -10,6 +10,8 @@
 
 #include "fileIO/dataFormat.h"
 
-bool check_grid_equal(Grid *grid1, Grid *grid2);
+bool check_grid_equal(const Grid *grid1, const Grid *grid2);
+
+bool check_row_existing(const Grid *grid, const Row *row);
 
 #endif //TOOL_H

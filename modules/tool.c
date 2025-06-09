@@ -11,6 +11,12 @@
 
 #include <string.h>
 
+/**
+ * 检查数据是否一致
+ * @param grid1
+ * @param grid2
+ * @return
+ */
 bool check_grid_equal(const Grid *grid1, const Grid *grid2) {
     if (grid1 == NULL || grid2 == NULL) {
         return true;
@@ -27,10 +33,30 @@ bool check_grid_equal(const Grid *grid1, const Grid *grid2) {
         for (int j = 0; j < row1->len; j++) {
             const Node *node1 = row1->data[j];
             const Node *node2 = row2->data[j];
-            if (node1->len != node2->len) {
+            if (node1->len != node2->len||strcmp(node1->str, node2->str)!=0) {
                 return false;
             }
-            if (strcmp(node1->str, node2->str)) {
+        }
+    }
+    return true;
+}
+
+/**
+ * 检查行是否存在于网络中
+ * @param grid
+ * @param row
+ * @return
+ */
+bool check_row_existing(const Grid *grid, const Row *row) {
+    for (int i = 0; i < grid->len; i++) {
+        Row *row2 = grid->data[i];
+        if (row2->len != row->len) {
+            return false;
+        }
+        for (int j = 0; j < row->len; j++) {
+            const Node *node1 = row2->data[j];
+            const Node *node2 = row->data[j];
+            if (node1->len != node2->len || strcmp(node1->str, node2->str) != 0) {
                 return false;
             }
         }
