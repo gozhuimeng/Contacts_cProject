@@ -70,6 +70,7 @@ Row *loadRow(FILE *file) {
 Grid *loadGrid_append(Grid *grid, char *filename) {
     FILE *file = openFile_read(filename);
     if (file == NULL) {
+        printf("文件读取异常，无法加载数据\n");
         return grid; // 如果文件打开失败，返回原网格
     }
     int ch = 0;
