@@ -1,4 +1,12 @@
+# IDE
 .idea
+
+# CMake相关
 cmake-build-debug
 CMakeLists.txt
+
+# 数据集
 data
+
+# 报告相关
+report
