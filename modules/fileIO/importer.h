@@ -6,17 +6,18 @@
 #ifndef IMPORTER_H
 #define IMPORTER_H
 
-#include <stdio.h>
 #include "dataFormat.h"
 
-FILE *openFile_read(char *filename);
+#include <stdio.h>
 
-Node *loadNode(FILE *file);
+FILE *openFile_read(char *filename); // 打开文件
 
-Row *loadRow(FILE *file);
+Node *loadNode(FILE *file); // 将文件中的数据加载到节点中
 
-Grid *loadGrid(char *filename);
+Row *loadRow(FILE *file); // 将文件中的数据加载到行中
 
-Grid *loadGrid_append(Grid *grid, char *filename);
+Grid *loadGrid(char *filename); // 将文件中的数据加载到数据表中
+
+Grid *loadGrid_append(Grid *grid, char *filename); // 追加载入数据到数据表中
 
 #endif //IMPORTER_H

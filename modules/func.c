@@ -1,15 +1,12 @@
 //
 // Created by meng on 25-5-27.
-// DOC 主程序函数
+// DOC 主程序函数库
 //
-
-#include <stdio.h>
-#include <stdlib.h>
 
 #include "func.h"
 
-#include <math.h>
-#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "tool.h"
 #include "fileIO/dataFormat.h"
@@ -29,8 +26,6 @@ void print_menu() {
     printf("\t4. 查询数据\n");
     printf("\t5. 修改数据\n");
     printf("\t6. 删除数据\n");
-    // printf("\t7. 保存数据\n");
-    // printf("\t8. 导出数据\n");
     printf("\t7. 导出数据\n");
     printf("\t0. 退出\n");
     printf("==============================\n");
@@ -42,8 +37,9 @@ void print_menu() {
  * @param grid
  */
 void quit(Grid *grid) {
-    Grid *fileGrid = loadGrid(DATA_FILE_NAME);
+    Grid *fileGrid = loadGrid(DATA_FILE_NAME); // 读取文件
     if (!check_grid_equal(grid, fileGrid)) {
+        // 检查数据是否发生改动
         printf("数据发生改动，是否保存数据？(Y/N) \n");
         char choice = getchar();
         getchar(); // 清除换行符
@@ -54,22 +50,23 @@ void quit(Grid *grid) {
             choice = getchar();
         }
         if (choice == 'N' || choice == 'n') {
-            exit(0);
+            exit(0); // 退出程序
         }
         printf("正在保存数据...\n");
-        saveFile(DATA_FILE_NAME, grid);
+        saveFile(DATA_FILE_NAME, grid); // 保存数据到文件
         printf("数据保存完成，正在退出程序...\n");
     } else {
         printf("数据未发生改动，正在退出程序...\n");
     }
-    exit(0);
+    exit(0); // 退出程序
 }
 
 /**
  * 导入数据
- * @return
+ * @return Grid
  */
 Grid *import_data(Grid *grid) {
+    // 初始化变量
     char filename[500];
     int choice = 0;
     printf("请输入要导入的文件名(相对路径和绝对路径均可): ");
@@ -133,42 +130,58 @@ Grid *import_data(Grid *grid) {
     }
 }
 
+/**
+ * 插入数据
+ * @param grid
+ * @return Grid
+ */
 Grid *insert_data(Grid *grid) {
-    // 新建数据行
+    // 新建数据项
     Row *row = createRow();
+    // 初始化变量
     char name[100];
     printf("请输入姓名: ");
     scanf("%s", name);
     Node *node = createNode();
     loadData(node, name);
     appendRow(row, node);
-    // 创建空间
+    // 创建数据项空间
     for (int i = 1; i < 5; i++) {
         appendRow(row, createNode());
     }
     printf("已创建空记录，请添加记录\n");
-    row = modify_row(row);
-    appendGrid(grid, row);
+    row = modify_row(row); // 调用修改函数
+    appendGrid(grid, row); // 添加数据
     return grid; // 返回原网格
 }
 
-
+/**
+ * 全局浏览
+ * @param grid
+ */
 void browse_data(const Grid *grid) {
+    // 检查是否为空
     if (grid == NULL || grid->len == 0) {
         printf("没有数据可供浏览\n");
         return;
     }
+    // 打印内容
     printf("%-8s %-8s %-19s %-19s %-30s\n", "姓名", "籍贯", "电话1", "电话2", "邮箱");
     for (int i = 0; i < grid->len; i++) {
-        print_item(grid->data[i]);
+        print_item(grid->data[i]); // 调用打印行函数
     }
 }
 
+/**
+ * 查询数据
+ * @param grid
+ */
 void query_data(const Grid *grid) {
-    Grid *tempGrid = select_by_name(grid);
+    Grid *tempGrid = select_by_name(grid); // 创建缓存，存储查询结果
     if (tempGrid->len == 0) {
         printf("没有找到相关数据\n");
     } else {
+        // 打印信息
         printf("查询结果:\n");
         printf("%-8s %-8s %-19s %-19s %-30s\n", "姓名", "籍贯", "电话1", "电话2", "邮箱");
         for (int i = 0; i < tempGrid->len; i++) {
@@ -177,14 +190,21 @@ void query_data(const Grid *grid) {
     }
 }
 
+/**
+ * 修改数据
+ * @param grid
+ * @return Grid
+ */
 Grid *modify_data(Grid *grid) {
-    Grid *tempGrid = select_by_name(grid);
+    Grid *tempGrid = select_by_name(grid); // 创建缓存，存储查询结果
     if (tempGrid->len == 0) {
         printf("没有找到相关数据，无法修改\n");
         return grid;
     } else if (tempGrid->len == 1) {
+        // 只有一个记录，无需选择
         modify_item(grid, tempGrid->data[0]);
     } else if (tempGrid->len >= 2) {
+        // 多个记录，提供选择
         printf("存在多条记录，请选择要修改的记录:\n");
         printf("%02s %-8s %-8s %-19s %-19s %-30s\n", "  " "姓名", "籍贯", "电话1", "电话2", "邮箱");
         for (int i = 0; i < tempGrid->len; i++) {
@@ -194,6 +214,7 @@ Grid *modify_data(Grid *grid) {
         printf("请选择修改项的序号(输入-1取消): ");
         int index = -1;
         while (scanf("%d", &index) != 1 || index < -1 || index >= tempGrid->len) {
+            // 输入检查
             printf("非法输入，请重新输入: ");
             while (getchar() != '\n') {
             } // 清空输入缓冲区
@@ -202,21 +223,28 @@ Grid *modify_data(Grid *grid) {
             printf("取消修改操作\n");
             return grid;
         }
-        modify_item(grid, tempGrid->data[index]);
+        modify_item(grid, tempGrid->data[index]); // 调用修改函数
     }
     return grid;
 }
 
+/**
+ * 删除数据
+ * @param grid
+ * @return Grid
+ */
 Grid *delete_data(Grid *grid) {
-    Grid *tempGrid = select_by_name(grid);
+    Grid *tempGrid = select_by_name(grid); // 创建缓存，存储查询结果
     if (tempGrid->len == 0) {
         printf("没有找到相关数据，无法删除\n");
         return grid;
     } else if (tempGrid->len == 1) {
-        while (getchar()!='\n') {
+        // 只有一个记录，无需选择
+        while (getchar() != '\n') {
         } // 清空输入缓冲区
         grid = delete_item(grid, tempGrid->data[0]);
     } else if (tempGrid->len >= 2) {
+        // 多个记录，提供选择
         printf("存在多条记录，请选择要删除的记录:\n");
         printf("%-8s %-10s %-10s %-19s %-19s %-30s\n", "  " "姓名", "籍贯", "电话1", "电话2", "邮箱");
         for (int i = 0; i < tempGrid->len; i++) {
@@ -236,12 +264,17 @@ Grid *delete_data(Grid *grid) {
         }
         while (getchar() != '\n') {
         } // 清空输入缓冲区
-        grid = delete_item(grid, tempGrid->data[index]);
+        grid = delete_item(grid, tempGrid->data[index]); // 调用删除函数
     }
     return grid;
 }
 
+/**
+ * 导出数据
+ * @param grid
+ */
 void export_data(const Grid *grid) {
+    // 初始化变量
     char name[100];
     printf("请输入导出文件名(相对路径和绝对路径均可): ");
     scanf("%s", name);
@@ -249,6 +282,6 @@ void export_data(const Grid *grid) {
         printf("非法操作：文件名为空，中断操作\n");
         return;
     }
-    saveFile(name, grid);
+    saveFile(name, grid); // 调用保存函数
     printf("数据已导出到 %s\n", name);
 }

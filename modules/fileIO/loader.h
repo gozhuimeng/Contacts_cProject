@@ -8,42 +8,48 @@
 
 #include "dataFormat.h"
 
-Node *createNode();
+// 定义初始化值
+#define INIT_NODE_SIZE 100  // 节点初始大小
+#define INIT_ROW_SIZE 10  // 行初始长度
+#define INIT_COL_SIZE 10  // 表初始行数
+#define EXTEND_X 1.5  // 扩展倍数
 
-void extendNode(Node *node);
+Node *createNode(); // 创建节点
 
-void clearData(Node *node);
+void extendNode(Node *node); // 扩展节点空间
 
-void freeNode(Node **node);
+void clearData(Node *node); // 清空节点数据
 
-void loadData(Node *node, char *data);
+void freeNode(Node **node); // 释放节点
 
-void appendChar(Node *node, char c);
+void loadData(Node *node, char *data); // 加载数据到节点
 
-void overwriteData(Node *node, char *data);
+void appendChar(Node *node, char c); // 追加字符到节点
 
-Row *createRow();
+void overwriteData(Node *node, char *data); // 覆写节点数据
 
-void extendRow(Row *row);
+Row *createRow(); // 创建行
 
-void clearRow(Row *row);
+void extendRow(Row *row); // 扩展行空间
 
-void freeRow(Row **row);
+void clearRow(Row *row); // 清空行数据
 
-void appendRow(Row *row, Node *node);
+void freeRow(Row **row); // 释放行
 
-void overwriteRow(Row *row, Node *node);
+void appendRow(Row *row, Node *node); // 添加节点到行
 
-Grid *createGrid();
+void overwriteRow(Row *row, Node *node); // 覆写行数据
 
-void extendGrid(Grid *grid);
+Grid *createGrid(); // 创建表
 
-void clearGrid(Grid *grid);
+void extendGrid(Grid *grid); // 扩展表空间
 
-void freeGrid(Grid **grid);
+void clearGrid(Grid *grid); // 清空表数据
 
-void appendGrid(Grid *grid, Row *row);
+void freeGrid(Grid **grid); // 释放表
 
-void overwriteGrid(Grid *grid, Row *row);
+void appendGrid(Grid *grid, Row *row); // 添加行到表
+
+void overwriteGrid(Grid *grid, Row *row); // 覆写表数据
 
 #endif //LOADER_H

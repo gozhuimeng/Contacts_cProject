@@ -9,10 +9,12 @@
 #include "modules/fileIO/config.h"
 #include "modules/fileIO/dataFormat.h"
 #include "modules/fileIO/importer.h"
-
 #include "modules/func.h"
 
-
+/**
+ * 主函数
+ * @return
+ */
 int main() {
     system("chcp 65001 > nul");
 
